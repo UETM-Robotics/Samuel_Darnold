@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.security.PublicKey;
 
+import com.ctre.phoenix6.CANBus;
+
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -36,7 +38,7 @@ public final class Constants
 
   public static final class DrivebaseConstants
   {
-
+    public final CANBus kCANBus = CANBus.roboRIO();
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
