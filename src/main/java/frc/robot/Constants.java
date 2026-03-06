@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.security.PublicKey;
+
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
@@ -19,7 +21,7 @@ import swervelib.math.Matter;
 public final class Constants
 {
 
-  public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
+  public static final double ROBOT_MASS = /*(148 - 20.3) * 0.453592*/ 34.325; // 32lbs * kg per pound
   public static final Matter CHASSIS    = new Matter(new Translation3d(0, 0, Units.inchesToMeters(8)), ROBOT_MASS);
   public static final double LOOP_TIME  = 0.13; //s, 20ms + 110ms sprk max velocity lag
   public static final double MAX_SPEED  = Units.feetToMeters(14.5);
@@ -39,13 +41,24 @@ public final class Constants
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
 
-  public static final class IntakeConstants
+  public static final class MotorConstants
   {
-    public static final double INTAKE_MOTOR_SPEED = 1.0;
+    public static final int INTAKE_MOTOR_CAN = -1;
+    public static final int INDEXER_MOTOR_CAN = -1;
+
+    public static final double INDEXER_MOTOR_SPEED = 0.2;
+    public static final double INTAKE_MOTOR_SPEED = 0.2;
   }
 
   public static class OperatorConstants
   {
+    public static class ControllerConstants {
+      public static final int RIGHT_X_AXIS = 0;
+      public static final int RIGHT_Y_AXIS = 1;
+
+      public static final int LEFT_X_AXIS = 3;
+      public static final int LEFT_Y_AXIS = 4;
+    }
 
     // Joystick Deadband
     public static final double DEADBAND        = 0.1;
