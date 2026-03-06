@@ -15,6 +15,12 @@
           "data": {
             "pathName": "collect"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "shoot"
+          }
         }
       ]
     }
