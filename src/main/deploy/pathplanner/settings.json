@@ -6,7 +6,10 @@
     "Blue Alliance Paths",
     "Red Alliance Paths"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "BlueAuto",
+    "RedAuto"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
