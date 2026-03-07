@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.revrobotics.spark.SparkMax;
@@ -11,6 +14,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.MotorConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
     //All three krakens
@@ -19,12 +23,19 @@ public class ShooterSubsystem extends SubsystemBase {
     private final TalonFX krakenShooterRight;
 
     //The motor for the covers of the shooter
-    private final SparkMax roofThing;
+    private final SparkMax shooterHoodMotor;
+
+    //Motor for the indexer
+    private final VictorSPX indexerDriver;
+
+    private double targetDegree;
+
+
     
 
 
     /** Creates a new ExampleSubsystem. */
-    public ShooterSubsystem(int leftShooterCANID, int middleShooterCANID, int rightShooterCANID, int sparkMaxCANID) {
+    public ShooterSubsystem(int leftShooterCANID, int middleShooterCANID, int rightShooterCANID, int shooterHoodMotorCANID, int intakeDriverCANID) {
         //set up the krakens
         shooterDriver = new TalonFX(leftShooterCANID);
         krakenShooterMiddle = new TalonFX(leftShooterCANID);
@@ -34,21 +45,34 @@ public class ShooterSubsystem extends SubsystemBase {
         krakenShooterMiddle.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
         krakenShooterRight.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
 
-        roofThing = new SparkMax(sparkMaxCANID, MotorType.kBrushless);
+        shooterHoodMotor = new SparkMax(shooterHoodMotorCANID, MotorType.kBrushless);
+
+        indexerDriver = new VictorSPX(intakeDriverCANID);
+        indexerDriver.setNeutralMode(NeutralMode.Coast);
     }
 
     /**
-     * Example command factory method.
-     *
-     * @return a command
+     * Starts the Indexer Motor to run at INDEXER_MOTOR_SPEED determined in {@link MotorConstants}
      */
-    public Command exampleMethodCommand() {
-        // Inline construction of command goes here.
-        // Subsystem::RunOnce implicitly requires `this` subsystem.
-        return runOnce(
-            () -> {
-            /* one-time action goes here */
-            });
+    public void startIndexerMotor() {
+        indexerDriver.set(ControlMode.PercentOutput, MotorConstants.INDEXER_MOTOR_SPEED);
+    }
+
+    /**
+     * Stops the Indexer Motor
+     */
+    public void stopIndexerMotor() {
+        indexerDriver.set(ControlMode.PercentOutput, 0.0);
+    }
+
+    /**
+     * NOT DONEEEEEEEEEEEEEEEEEEEEEEEEEEEE
+     * @return 
+     * angle
+     */
+    public double getHoodAngle() {
+        double angle = shooterHoodMotor.getEncoder().getPosition();
+        return angle;
     }
 
     /**
