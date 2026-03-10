@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 13.0,
-        "y": 7.0
+        "y": 4.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 13.252593221926507,
-        "y": 7.06765118329884
+        "x": 13.442869022774417,
+        "y": 4.1186121037159396
       },
       "isLocked": true,
       "linkedName": null
@@ -17,15 +17,15 @@
     {
       "anchor": {
         "x": 13.070242510699,
-        "y": 5.7364336661911555
+        "y": 2.3
       },
       "prevControl": {
-        "x": 13.922094155844157,
-        "y": 5.752932900432899
+        "x": 13.98853354978355,
+        "y": 2.298084415584416
       },
       "nextControl": {
-        "x": 11.349607550150878,
-        "y": 5.703107253757239
+        "x": 11.349288580641984,
+        "y": 2.3035899648238334
       },
       "isLocked": false,
       "linkedName": null
@@ -33,15 +33,15 @@
     {
       "anchor": {
         "x": 10.961241084165476,
-        "y": 5.878758915834522
+        "y": 2.3
       },
       "prevControl": {
-        "x": 11.189366085764046,
-        "y": 5.714004598967027
+        "x": 11.241374525437093,
+        "y": 2.3266506353046355
       },
       "nextControl": {
-        "x": 9.15921386849618,
-        "y": 7.18020225090863
+        "x": 9.394724025974027,
+        "y": 2.1509686147186153
       },
       "isLocked": false,
       "linkedName": null
@@ -49,23 +49,18 @@
     {
       "anchor": {
         "x": 8.8,
-        "y": 7.0
+        "y": 1.0
       },
       "prevControl": {
-        "x": 9.25558577429053,
-        "y": 6.828908719708223
+        "x": 9.50195294197064,
+        "y": 0.736387669844695
       },
       "nextControl": null,
       "isLocked": true,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 2.046908315565047,
-      "rotationDegrees": 180.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -79,13 +74,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 90.0
   },
   "reversed": false,
   "folder": "Red Alliance Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 90.0
   },
   "useDefaultConstraints": true
 }
