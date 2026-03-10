@@ -7,19 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "startBlueLeft"
+            "pathName": "startBlueRight"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B-Collect_L"
+            "pathName": "B-Collect_R"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "B_shoot_L"
+            "pathName": "B_shoot_R"
           }
         },
         {

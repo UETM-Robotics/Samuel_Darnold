@@ -7,25 +7,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "redStartRight"
+            "pathName": "startBlueMidRight"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "R-Collect_R"
+            "pathName": "B-Collect_R"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "redShoot"
+            "pathName": "B_shoot_R"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BlueClimb"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "RedAuto",
+  "folder": "BlueAuto",
   "choreoAuto": false
 }
