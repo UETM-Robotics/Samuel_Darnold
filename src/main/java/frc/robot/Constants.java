@@ -48,13 +48,10 @@ public final class Constants
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
 
-  public static final class MotorConstants
+  public static final class IntakeConstants
   {
     public static final int INTAKE_MOTOR_CAN = -1;
-    public static final int INDEXER_MOTOR_CAN = -1;
-
-
-    public static final double INDEXER_MOTOR_SPEED = 0.2;
+    
     public static final double INTAKE_MOTOR_SPEED = 0.2;
   }
 
@@ -64,7 +61,11 @@ public final class Constants
     public static final int FLYWHEEL_FOLLOWER_MID_CANID = -1;
     public static final int FLYWHEEL_FOLLOWER_RIGHT_CANID = -1; 
 
-    
+    public static final int HOOD_CANID = -1;
+
+    public static final int INDEXER_MOTOR_CAN = -1;
+
+    public static final double INDEXER_MOTOR_SPEED = 0.2;
 
     public static final double HOOD_ANGLE = 45;
     public static final double VOLTAGE = 6.0;

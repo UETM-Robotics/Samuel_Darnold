@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Constants.MotorConstants;
 import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
@@ -32,10 +31,10 @@ public class ShooterSubsystem extends SubsystemBase {
     private final TalonFX krakenShooterMiddle = new TalonFX(ShooterConstants.FLYWHEEL_FOLLOWER_MID_CANID);
     private final TalonFX krakenShooterRight = new TalonFX(ShooterConstants.FLYWHEEL_FOLLOWER_RIGHT_CANID);
 
-    private final TorqueCurrentFOC sysIdFlywheelTorqueCurrent = new TorqueCurrentFOC(0.0);
+    private final TorqueCurrentFOC sysIdFlywheelTorqueCurrent = new TorqueCurrentFOC(null);
 
     //The motor for the covers of the shooter
-    private final SparkMax shooterHoodMotor;
+    private final SparkMax shooterHoodMotor = new SparkMax(ShooterConstants.HOOD_CANID, MotorType.kBrushless);
 
     //Motor for the indexer
     private final VictorSPX indexerDriver;
@@ -49,7 +48,7 @@ public class ShooterSubsystem extends SubsystemBase {
             Seconds.of(10),
             state -> SignalLogger.writeString("Flywheel SysId", state.toString())),
         new SysIdRoutine.Mechanism(
-            amps -> flywheelDriver.setControl(sysIdFlywheelTorqueCurrent.withOutput(amps.in(Volts))),
+            volts -> flywheelDriver.setControl(sysIdFlywheelTorqueCurrent.withOutput(volts.in(Volts))),
             null,
             this));
 
@@ -60,7 +59,7 @@ public class ShooterSubsystem extends SubsystemBase {
         krakenShooterMiddle.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
         krakenShooterRight.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
 
-        shooterHoodMotor = new SparkMax(shooterHoodMotorCANID, MotorType.kBrushless);
+        //shooterHoodMotor = new SparkMax(shooterHoodMotorCANID, MotorType.kBrushless);
 
         indexerDriver = new VictorSPX(intakeDriverCANID);
         indexerDriver.setNeutralMode(NeutralMode.Coast);
@@ -90,7 +89,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * Starts the Indexer Motor to run at INDEXER_MOTOR_SPEED determined in {@link MotorConstants}
      */
     public void startIndexerMotor() {
-        indexerDriver.set(ControlMode.PercentOutput, MotorConstants.INDEXER_MOTOR_SPEED);
+        indexerDriver.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);
     }
 
     /**
@@ -131,6 +130,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void setHoodAngle(double hoodAngle) {
+
+        
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setHoodAngle'");
     }

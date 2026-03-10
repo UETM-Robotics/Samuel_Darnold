@@ -7,14 +7,14 @@ import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 
-import frc.robot.Constants.MotorConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-    private final SparkMax intakeDriver;
+    private final SparkMax intakeDriver = new SparkMax(IntakeConstants.INTAKE_MOTOR_CAN, MotorType.kBrushless);
+
 
     public IntakeSubsystem (int intakeDriverCANID) {
-        intakeDriver = new SparkMax(intakeDriverCANID, MotorType.kBrushless);
         SparkMaxConfig cSparkMax = new SparkMaxConfig();
         cSparkMax.idleMode(IdleMode.kCoast);
 
@@ -27,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public Command startMotor() {
     return runOnce(
         () -> {
-            intakeDriver.set(MotorConstants.INTAKE_MOTOR_SPEED);
+            intakeDriver.set(IntakeConstants.INTAKE_MOTOR_SPEED);
         });
     }
 
