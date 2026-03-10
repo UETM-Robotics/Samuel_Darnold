@@ -12,6 +12,8 @@ import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MotorConstants;
@@ -51,6 +53,18 @@ public class ShooterSubsystem extends SubsystemBase {
         indexerDriver.setNeutralMode(NeutralMode.Coast);
     }
 
+    public void startKrakens() {
+        shooterDriver.setVoltage(6.0);
+    }
+
+    public double measureRPM() {
+        return shooterDriver.getRotorVelocity().getValueAsDouble();
+    }
+
+    public double measureAccel() {
+        return shooterDriver.getAcceleration().getValueAsDouble();
+    }
+
     /**
      * Starts the Indexer Motor to run at INDEXER_MOTOR_SPEED determined in {@link MotorConstants}
      */
@@ -71,7 +85,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * angle
      */
     public double getHoodAngle() {
-        double angle = shooterHoodMotor.getEncoder().getPosition();
+        double angle =  70 + shooterHoodMotor.getAbsoluteEncoder().getPosition() * 0.5;
         return angle;
     }
 
@@ -94,4 +108,13 @@ public class ShooterSubsystem extends SubsystemBase {
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
     }
+
+    // public Command measureRPMDrop() {
+    //     return run(() -> {
+    //         shooterDriver.setVoltage(6.0);
+    //         SmartDashboard.putNumber("Current RPM", shooterDriver.getRotorVelocity().getValueAsDouble());
+    //         SmartDashboard.putNumber("Low RPM", shooterDriver.getRotorVelocity().getValueAsDouble());
+    //         SmartDashboard.putNumber("Max RPM", shooterDriver.getRotorVelocity().getValueAsDouble());
+    //     }).withTimeout(15.0);
+    // }
 }

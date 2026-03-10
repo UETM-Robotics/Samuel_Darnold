@@ -189,9 +189,11 @@ public class RobotContainer
     {
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
 
-      driverJoystick.button(2).whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+      driverJoystick.button(6).whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       //driverJoystick.y().whileTrue(drivebase.driveToDistanceCommand(1.0, 0.2));
+      driverJoystick.button(7).onTrue(Commands.runOnce(drivebase::zeroGyro));
       //driverJoystick.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+
       //driverJoystick.back().whileTrue(drivebase.centerModulesCommand());
       //driverJoystick.leftBumper().onTrue(Commands.none());
       //driverJoystick.rightBumper().onTrue(Commands.none());
