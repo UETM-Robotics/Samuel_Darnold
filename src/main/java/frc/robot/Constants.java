@@ -54,7 +54,14 @@ public final class Constants
     
     public static final double INTAKE_MOTOR_SPEED = 0.2;
   }
+  public static final class ClimbConstants 
+  {
+    public static final int CLIMB_MOTOR_CAN = -1;
 
+    public static final double CLIMB_MOTOR_SPEED = 0.2;
+
+
+  }
   public static final class ShooterConstants
   {
     public static final int FLYWHEEL_DRIVER_CANID = -1;

@@ -199,7 +199,7 @@ public class RobotContainer
       //driverJoystick.rightBumper().onTrue(Commands.none());
     } else
     {
-    //   driverJoystick.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    //   driv.erJoystick.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     //   driverJoystick.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
     //   driverJoystick.start().whileTrue(Commands.none());
     //   driverJoystick.back().whileTrue(Commands.none());
