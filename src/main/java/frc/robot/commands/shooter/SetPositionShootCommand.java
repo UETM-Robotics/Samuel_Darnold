@@ -1,44 +1,44 @@
 package frc.robot.commands.shooter;
 
-import java.util.Optional;
-
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class CalculateAndShootCommand extends Command {
+public class SetPositionShootCommand extends Command {
     private final ShooterSubsystem shooterSubsystem;
     private final SwerveSubsystem swerveSubsystem;
-    private Pose2d pose;
 
-    private Translation2d aimPoint;
+    private Pose2d targetPose;
 
-
-
-    public CalculateAndShootCommand (ShooterSubsystem shooterSubsystem, SwerveSubsystem swerveSubsystem) {
+    public SetPositionShootCommand (ShooterSubsystem shooterSubsystem, SwerveSubsystem swerveSubsystem) {
         this.shooterSubsystem = shooterSubsystem;
         this.swerveSubsystem = swerveSubsystem;
-        //this.visionSubsystem = vistionSusystem;
-        this.pose = swerveSubsystem.getPose();
+
+        if(swerveSubsystem.isRedAlliance()) {
+            this.targetPose = new Pose2d(); //red target
+        } else {
+            this.targetPose = new Pose2d(); //blue target
+        }
         
         addRequirements(shooterSubsystem);
+        addRequirements(swerveSubsystem);
     } 
 
     @Override 
     public void initialize() {
-        /*
-        Begin spin up of krakens
-        */
+        shooterSubsystem.startFlywheels();
     }
 
     @Override 
     public void execute() {
-        pose = swerveSubsystem.getPose();
+        swerveSubsystem.driveToPose(targetPose);
+        shooterSubsystem.setHoodAngle(ShooterConstants.HOOD_ANGLE);
         
+        if (/*within target rpm and angle*/ true) {
+            shooterSubsystem.startIndexerMotor();
+        }
         /*
         Get distance from vision
         Get angle from odometry 
@@ -58,6 +58,7 @@ public class CalculateAndShootCommand extends Command {
         /*
         Turn Off Shooter Motors
         */
+       shooterSubsystem.stopFlywheels();
        shooterSubsystem.stopIndexerMotor();
     }
 

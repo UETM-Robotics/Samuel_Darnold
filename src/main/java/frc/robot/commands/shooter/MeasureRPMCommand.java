@@ -3,14 +3,13 @@ package frc.robot.commands.shooter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class MeasureRPMCommand extends Command {
     private final ShooterSubsystem shooterSubsystem;
     private double min;
     private double max;
     private double current;
-    private double average;
+    //private double average;
 
     private boolean startMeasurement;
 
@@ -22,14 +21,14 @@ public class MeasureRPMCommand extends Command {
 
     @Override 
     public void initialize() {
-        shooterSubsystem.startKrakens();
+        shooterSubsystem.startFlywheels();
         startMeasurement = false;
     }
 
     @Override 
     public void execute() {
-        current = shooterSubsystem.measureRPM()*60;
-        if (!startMeasurement && shooterSubsystem.measureAccel() < 0.1) {
+        current = shooterSubsystem.measureFlywheelRPM()*60;
+        if (!startMeasurement && shooterSubsystem.measureFlywheelAccel() < 0.1) {
             startMeasurement = true;
             min = current;
             max = current;

@@ -36,9 +36,14 @@ public final class Constants
 //    public static final PIDConstants ANGLE_PID       = new PIDConstants(0.4, 0, 0.01);
 //  }
 
+  public static final class CANIDs 
+  {
+
+  }
+
   public static final class DrivebaseConstants
   {
-    public final CANBus kCANBus = CANBus.roboRIO();
+    public final CANBus CAN_BUS = CANBus.roboRIO();
     // Hold time on motor brakes when disabled
     public static final double WHEEL_LOCK_TIME = 10; // seconds
   }
@@ -48,8 +53,21 @@ public final class Constants
     public static final int INTAKE_MOTOR_CAN = -1;
     public static final int INDEXER_MOTOR_CAN = -1;
 
+
     public static final double INDEXER_MOTOR_SPEED = 0.2;
     public static final double INTAKE_MOTOR_SPEED = 0.2;
+  }
+
+  public static final class ShooterConstants
+  {
+    public static final int FLYWHEEL_DRIVER_CANID = -1;
+    public static final int FLYWHEEL_FOLLOWER_MID_CANID = -1;
+    public static final int FLYWHEEL_FOLLOWER_RIGHT_CANID = -1; 
+
+    
+
+    public static final double HOOD_ANGLE = 45;
+    public static final double VOLTAGE = 6.0;
   }
 
   public static class OperatorConstants
@@ -57,6 +75,7 @@ public final class Constants
     public static class ControllerConstants {
       public static final int RIGHT_X_AXIS = 0;
       public static final int RIGHT_Y_AXIS = 1;
+
 
       public static final int LEFT_X_AXIS = 3;
       public static final int LEFT_Y_AXIS = 4;
