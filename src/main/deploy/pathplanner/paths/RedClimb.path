@@ -16,11 +16,11 @@
     },
     {
       "anchor": {
-        "x": 15.0,
+        "x": 15.5,
         "y": 4.3
       },
       "prevControl": {
-        "x": 14.271840893330765,
+        "x": 14.771840893330765,
         "y": 4.3032042216664514
       },
       "nextControl": null,
@@ -28,7 +28,12 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0.0
+    }
+  ],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
@@ -49,7 +54,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "Red Alliance Paths",
