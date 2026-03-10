@@ -61,6 +61,10 @@ public class ShooterSubsystem extends SubsystemBase {
         return shooterDriver.getRotorVelocity().getValueAsDouble();
     }
 
+    public double measureAccel() {
+        return shooterDriver.getAcceleration().getValueAsDouble();
+    }
+
     /**
      * Starts the Indexer Motor to run at INDEXER_MOTOR_SPEED determined in {@link MotorConstants}
      */

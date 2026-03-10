@@ -10,6 +10,8 @@ public class MeasureRPMCommand extends Command {
     private double min;
     private double max;
     private double current;
+    private double average;
+
     private boolean startMeasurement;
 
 
@@ -27,7 +29,7 @@ public class MeasureRPMCommand extends Command {
     @Override 
     public void execute() {
         current = shooterSubsystem.measureRPM()*60;
-        if (!startMeasurement && shooterSubsystem.measureRPM()*60>3000) {
+        if (!startMeasurement && shooterSubsystem.measureAccel() < 0.1) {
             startMeasurement = true;
             min = current;
             max = current;
