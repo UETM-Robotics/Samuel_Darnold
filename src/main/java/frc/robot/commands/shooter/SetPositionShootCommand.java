@@ -28,7 +28,7 @@ public class SetPositionShootCommand extends Command {
 
     @Override 
     public void initialize() {
-        shooterSubsystem.startFlywheels();
+        shooterSubsystem.startFlywheels(10);
     }
 
     @Override 

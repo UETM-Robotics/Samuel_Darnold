@@ -12,7 +12,9 @@ import static edu.wpi.first.units.Units.Amps;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.SignalLogger;
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -29,6 +31,10 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+import edu.wpi.first.epilogue.Logged;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.units.measure.AngularAcceleration;
+import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -43,7 +49,11 @@ public class ShooterSubsystem extends SubsystemBase {
     private final TalonFX krakenShooterMiddle = new TalonFX(ShooterConstants.FLYWHEEL_FOLLOWER_MID_CANID);
     private final TalonFX krakenShooterRight = new TalonFX(ShooterConstants.FLYWHEEL_FOLLOWER_RIGHT_CANID);
 
-    private final TorqueCurrentFOC sysIdFlywheelTorqueCurrent = new TorqueCurrentFOC(null);
+    private final StatusSignal<AngularVelocity> flywheelVelocity = flywheelDriver.getVelocity();
+    private final StatusSignal<AngularAcceleration> flywheelAcceleration = flywheelDriver.getAcceleration();
+
+    SimpleMotorFeedforward ff = new SimpleMotorFeedforward(ShooterConstants.ks, ShooterConstants.kv, ShooterConstants.ka);
+
 
     //The motor for the covers of the shooter
     private final SparkMax shooterHoodMotor = new SparkMax(ShooterConstants.HOOD_CANID, MotorType.kBrushless);
@@ -70,14 +80,14 @@ public class ShooterSubsystem extends SubsystemBase {
         //set the other two to follow the left motor (driver)
         //krakenShooterMiddle.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
         //krakenShooterRight.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
-        configureFlywheel();
+        configureFlywheels();
         //shooterHoodMotor = new SparkMax(shooterHoodMotorCANID, MotorType.kBrushless);
 
         indexerDriver = new VictorSPX(intakeDriverCANID);
         indexerDriver.setNeutralMode(NeutralMode.Coast);
     }
 
-        private void configureFlywheel() {
+    private void configureFlywheels() {
         TalonFXConfiguration flywheelConfig = new TalonFXConfiguration()
             .withMotorOutput(
                 new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Coast)/*.withInverted(InvertedValue.CounterClockwise_Positive)*/)
@@ -128,12 +138,9 @@ public class ShooterSubsystem extends SubsystemBase {
             .finallyDo(this::stopFlywheels);
     }
 
-    private void initalizeFlywheelMotors() {
-
-    }
-
-    public void startFlywheels() {
-        flywheelDriver.setVoltage(6.0);
+    public void startFlywheels(double vel) {
+        double voltage = ff.calculate(vel);
+        flywheelDriver.setVoltage(voltage);
     }
 
     public void stopFlywheels() {
@@ -197,6 +204,12 @@ public class ShooterSubsystem extends SubsystemBase {
         
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'setHoodAngle'");
+    }
+
+    @Logged(name = "Flywheel Velocity")
+        public AngularVelocity getFlywheelVelocity() {
+        BaseStatusSignal.refreshAll(flywheelVelocity, flywheelAcceleration);
+        return BaseStatusSignal.getLatencyCompensatedValue(flywheelVelocity, flywheelAcceleration);
     }
 
 
