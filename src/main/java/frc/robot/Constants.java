@@ -76,6 +76,11 @@ public final class Constants
 
     public static final double HOOD_ANGLE = 45;
     public static final double VOLTAGE = 6.0;
+
+    //get values from SysID
+    public static final double ks = 0;
+    public static final double kv = 0;
+    public static final double ka = 0;
   }
 
   public static class OperatorConstants

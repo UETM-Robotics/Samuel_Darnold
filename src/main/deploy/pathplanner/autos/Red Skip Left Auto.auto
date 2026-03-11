@@ -1,0 +1,25 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Red_Skip_L"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "RedClimb"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "RedAuto",
+  "choreoAuto": false
+}

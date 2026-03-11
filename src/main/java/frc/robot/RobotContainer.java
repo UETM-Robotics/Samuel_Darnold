@@ -174,7 +174,7 @@ public class RobotContainer
                                                                                      Units.degreesToRadians(180))
                                            ));
       driverJoystick.button(7).onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
-      //driverJoystick.button(1).whileTrue(drivebase.sysIdDriveMotorCommand());
+      driverJoystick.button(1).whileTrue(drivebase.sysIdDriveMotorCommand());
       //driverJoystick.button(2).whileTrue(Commands.runEnd(() -> driveDirectAngleKeyboard.driveToPoseEnabled(true),
       //                                               () -> driveDirectAngleKeyboard.driveToPoseEnabled(false)));
       
