@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 2.565703463203463,
-        "y": 1.4486093073593074
+        "y": 1.4486093073593076
       },
       "isLocked": false,
       "linkedName": null
@@ -116,7 +116,7 @@
     "rotation": 90.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Blue Alliance Paths",
   "idealStartingState": {
     "velocity": 0.0,
     "rotation": 90.0
