@@ -21,12 +21,6 @@
           "data": {
             "pathName": "B_shoot_L"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BlueClimb"
-          }
         }
       ]
     }

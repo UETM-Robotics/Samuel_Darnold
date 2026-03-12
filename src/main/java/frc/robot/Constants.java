@@ -52,7 +52,7 @@ public final class Constants
   {
     public static final int INTAKE_MOTOR_CAN = -1;
     
-    public static final double INTAKE_MOTOR_SPEED = 0.2;
+    public static final double INTAKE_MOTOR_SPEED = 0.7;
   }
   public static final class ClimbConstants 
   {
@@ -75,7 +75,7 @@ public final class Constants
     public static final double INDEXER_MOTOR_SPEED = 0.2;
 
     public static final double HOOD_ANGLE = 45;
-    public static final double VOLTAGE = 6.0;
+    //public static final double VOLTAGE = 6.0;
 
     //get values from SysID
     public static final double ks = 0;

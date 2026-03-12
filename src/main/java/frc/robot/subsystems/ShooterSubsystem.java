@@ -11,7 +11,7 @@ import static edu.wpi.first.units.Units.Amps;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.StatusSignal;
@@ -22,7 +22,6 @@ import com.ctre.phoenix6.configs.SlotConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TorqueCurrentConfigs;
 import com.ctre.phoenix6.controls.Follower;
-import com.ctre.phoenix6.controls.TorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -35,8 +34,6 @@ import edu.wpi.first.epilogue.Logged;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.units.measure.AngularAcceleration;
 import edu.wpi.first.units.measure.AngularVelocity;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -59,7 +56,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private final SparkMax shooterHoodMotor = new SparkMax(ShooterConstants.HOOD_CANID, MotorType.kBrushless);
 
     //Motor for the indexer
-    private final VictorSPX indexerDriver;
+    private final TalonSRX indexerDriver = new TalonSRX(ShooterConstants.INDEXER_MOTOR_CAN);
 
         // NOTE: the output type is amps, NOT volts (even though it says volts)
     // https://www.chiefdelphi.com/t/sysid-with-ctre-swerve-characterization/452631/8
@@ -83,7 +80,6 @@ public class ShooterSubsystem extends SubsystemBase {
         configureFlywheels();
         //shooterHoodMotor = new SparkMax(shooterHoodMotorCANID, MotorType.kBrushless);
 
-        indexerDriver = new VictorSPX(intakeDriverCANID);
         indexerDriver.setNeutralMode(NeutralMode.Coast);
     }
 
@@ -161,7 +157,7 @@ public class ShooterSubsystem extends SubsystemBase {
     public void startIndexerMotor() {
         indexerDriver.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);
     }
-
+ 
     /**
      * Stops the Indexer Motor
      */

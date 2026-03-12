@@ -21,12 +21,6 @@
           "data": {
             "pathName": "redShoot_R"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RedClimb"
-          }
         }
       ]
     }

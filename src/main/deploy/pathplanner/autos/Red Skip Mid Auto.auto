@@ -9,12 +9,6 @@
           "data": {
             "pathName": "Red_Skip_Mid"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "RedClimb"
-          }
         }
       ]
     }
