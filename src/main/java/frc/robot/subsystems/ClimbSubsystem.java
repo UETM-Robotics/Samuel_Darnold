@@ -14,7 +14,7 @@ public class ClimbSubsystem extends SubsystemBase {
     private final SparkMax ClimbDriver = new SparkMax(ClimbConstants.CLIMB_MOTOR_CAN, MotorType.kBrushless);
 
 
-    public ClimbSubsystem (int ClimbDriverCANID) {
+    public ClimbSubsystem () {
         SparkMaxConfig cSparkMax = new SparkMaxConfig();
         cSparkMax.idleMode(IdleMode.kBrake);
 
@@ -37,6 +37,10 @@ public class ClimbSubsystem extends SubsystemBase {
             ClimbDriver.set(0);
         });
     }
+
+    // public void startMotor () {
+    //     ClimbDriver.stopMotor();
+    // }
 
     public void stop () {
         ClimbDriver.stopMotor();

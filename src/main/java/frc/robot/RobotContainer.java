@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.swervedrive.Vision;
 
@@ -45,6 +46,8 @@ public class RobotContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
+
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
                                             
   //private final Vision vision = new Vision(drivebase.getPose(), drivebase.field)
@@ -199,6 +202,8 @@ public class RobotContainer
       //driverJoystick.rightBumper().onTrue(Commands.none());
     } else
     {
+      driverJoystick.button(0).onTrue(climbSubsystem.startMotor()).onFalse(climbSubsystem.stopMotor());
+      driverJoystick.button(1).onTrue(climbSubsystem.startMotor()).onFalse(climbSubsystem.stopMotor());
     //   driv.erJoystick.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     //   driverJoystick.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
     //   driverJoystick.start().whileTrue(Commands.none());
