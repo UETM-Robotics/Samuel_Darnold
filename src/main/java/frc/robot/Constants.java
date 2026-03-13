@@ -50,29 +50,29 @@ public final class Constants
 
   public static final class IntakeConstants
   {
-    public static final int INTAKE_MOTOR_CAN = -1;
+    public static final int INTAKE_MOTOR_CAN = 13;
     
     public static final double INTAKE_MOTOR_SPEED = 0.7;
   }
+
   public static final class ClimbConstants 
   {
     public static final int CLIMB_MOTOR_CAN = -1;
 
     public static final double CLIMB_MOTOR_SPEED = 0.2;
-
-
   }
+
   public static final class ShooterConstants
   {
-    public static final int FLYWHEEL_DRIVER_CANID = -1;
-    public static final int FLYWHEEL_FOLLOWER_MID_CANID = -1;
-    public static final int FLYWHEEL_FOLLOWER_RIGHT_CANID = -1; 
+    public static final int FLYWHEEL_DRIVER_CANID = 16;
+    public static final int FLYWHEEL_FOLLOWER_MID_CANID = 17;
+    public static final int FLYWHEEL_FOLLOWER_RIGHT_CANID = 18; 
 
-    public static final int HOOD_CANID = -1;
+    public static final int HOOD_CANID = 15;
 
-    public static final int INDEXER_MOTOR_CAN = -1;
+    public static final int INDEXER_MOTOR_CAN = 14;
 
-    public static final double INDEXER_MOTOR_SPEED = 0.2;
+    public static final double INDEXER_MOTOR_SPEED = 0.5;
 
     public static final double HOOD_ANGLE = 45;
     //public static final double VOLTAGE = 6.0;
@@ -85,15 +85,56 @@ public final class Constants
 
   public static class OperatorConstants
   {
-    public static class ControllerConstants {
-      public static final int RIGHT_X_AXIS = 0;
-      public static final int RIGHT_Y_AXIS = 1;
+    public static class LogitechConstants {
+      public static final int LEFT_X_AXIS = 0;
+      public static final int LEFT_Y_AXIS = 1;
 
+      public static final int LEFT_TRIGGER_AXIS = 2;
+      public static final int RIGHT_TRIGGER_AXIS = 3;
 
-      public static final int LEFT_X_AXIS = 3;
-      public static final int LEFT_Y_AXIS = 4;
+      public static final int RIGHT_X_AXIS = 4;
+      public static final int RIGHT_Y_AXIS = 5;
 
+      public static final int X_BUTTON = 3;
+      public static final int Y_BUTTON = 4;
+      public static final int A_BUTTON = 1;
+      public static final int B_BUTTON = 2;
 
+      public static final int LEFT_BUMPER_BUTTON = 5;
+      public static final int RIGHT_BUMPER_BUTTON = 6;
+      
+      public static final int BACK_BUTTON = 7;
+      public static final int START_BUTTON = 8;
+
+      public static final int LEFT_STICK_BUTTON = 9;
+      public static final int RIGHT_STICK_BUTTON = 10;
+    }
+
+    public static class Pikachu_Constants {
+      public static final int LEFT_X_AXIS = 0;
+      public static final int LEFT_Y_AXIS = 1;
+
+      public static final int RIGHT_X_AXIS = 2;
+      public static final int RIGHT_Y_AXIS = 3;
+
+      public static final int X_BUTTON = 4;
+      public static final int Y_BUTTON = 1;
+      public static final int A_BUTTON = 3;
+      public static final int B_BUTTON = 2;
+
+      public static final int LEFT_BUMPER_BUTTON = 5;
+      public static final int RIGHT_BUMPER_BUTTON = 6;
+
+      public static final int LEFT_TRIGGER_BUTTON = 7;
+      public static final int RIGHT_TRIGGER_BUTTON = 8;
+      
+      public static final int MINUS_BUTTON = 9;
+      public static final int PLUS_BUTTON = 10;
+      public static final int SCREENSHOT_BUTTON = 14;
+      public static final int HOME_BUTTON = 13;
+
+      public static final int LEFT_STICK_BUTTON = 11;
+      public static final int RIGHT_STICK_BUTTON = 12;
     }
 
     // Joystick Deadband
