@@ -73,7 +73,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
     /** Creates a new ExampleSubsystem. */
-    public ShooterSubsystem(int leftShooterCANID, int middleShooterCANID, int rightShooterCANID, int shooterHoodMotorCANID, int intakeDriverCANID) {
+    public ShooterSubsystem() {
         //set the other two to follow the left motor (driver)
         //krakenShooterMiddle.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
         //krakenShooterRight.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
@@ -157,6 +157,10 @@ public class ShooterSubsystem extends SubsystemBase {
     public void startIndexerMotor() {
         indexerDriver.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);
     }
+
+    public Command startIndexerMotorCommand() {
+        return runOnce(() -> {indexerDriver.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);});
+    }
  
     /**
      * Stops the Indexer Motor
@@ -206,6 +210,10 @@ public class ShooterSubsystem extends SubsystemBase {
         public AngularVelocity getFlywheelVelocity() {
         BaseStatusSignal.refreshAll(flywheelVelocity, flywheelAcceleration);
         return BaseStatusSignal.getLatencyCompensatedValue(flywheelVelocity, flywheelAcceleration);
+    }
+
+    public Command stopIndexerMotorCommand() {
+        return runOnce(() -> {indexerDriver.set(ControlMode.PercentOutput, 0);});   
     }
 
 

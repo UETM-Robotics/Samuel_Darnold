@@ -74,12 +74,6 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Hide_tray",
-      "waypointRelativePos": 0.3504340962904633,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
       "name": "Throw_cheese",
       "waypointRelativePos": 3.0,
       "endWaypointRelativePos": null,
