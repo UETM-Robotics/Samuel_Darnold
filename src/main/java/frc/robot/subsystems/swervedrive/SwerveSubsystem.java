@@ -64,12 +64,19 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Enable vision odometry updates while driving.
    */
-  private final boolean     visionDriveTest = true;
+  private final boolean     visionDriveTest = false;
  
   /**
    * PhotonVision class to keep an accurate odometry.
    */
   private       Vision      vision;
+
+  private final Pose2d targetPose2d = isRedAlliance() ? 
+            new Pose2d(13.2, 4.0, new Rotation2d(0)) //red target
+                :
+            new Pose2d(3.2, 4.0, new Rotation2d(180)); //blue target
+  
+  private boolean driveSetPoint = false;
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -79,12 +86,13 @@ public class SwerveSubsystem extends SubsystemBase
    public SwerveSubsystem(File directory)
   { 
     boolean blueAlliance = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue;
+    
     Pose2d startingPose = blueAlliance ? new Pose2d(new Translation2d(Meter.of(1),
                                                                       Meter.of(4)),
-                                                    Rotation2d.fromDegrees(0))
+                                                    Rotation2d.fromDegrees(180))
                                        : new Pose2d(new Translation2d(Meter.of(16),
                                                                       Meter.of(4)),
-                                                    Rotation2d.fromDegrees(180));
+                                                    Rotation2d.fromDegrees(0));
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
     SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     try
@@ -486,6 +494,11 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.driveFieldOriented(velocity);
   }
 
+  public void driveFieldOrientedSetRotationPoint(ChassisSpeeds ChassisSpeeds, Translation2d SetPoint) 
+  {
+    swerveDrive.driveFieldOriented(ChassisSpeeds, SetPoint);
+  }
+
   /**
    * Drive the robot given a chassis field oriented velocity.
    *
@@ -496,6 +509,21 @@ public class SwerveSubsystem extends SubsystemBase
     return run(() -> {
       swerveDrive.driveFieldOriented(velocity.get());
     });
+  }
+
+  public Command driveTypeDeciderCommand(Supplier<ChassisSpeeds> velocity)
+  {
+    return run(()-> {
+      if (driveSetPoint) {
+        driveFieldOriented(velocity.get());
+      } else {
+        driveFieldOrientedSetRotationPoint(velocity.get(), targetPose2d.getTranslation());
+      }
+    });
+  }
+
+  public void toggleRotationPoint() {
+    driveSetPoint = driveSetPoint ? false : true;
   }
 
   /**
@@ -538,6 +566,11 @@ public class SwerveSubsystem extends SubsystemBase
   public Pose2d getPose()
   {
     return swerveDrive.getPose();
+  }
+
+  public Translation2d getDistanceToHub()
+  {
+    return targetPose2d.getTranslation().minus(swerveDrive.getPose().getTranslation());
   }
 
   /**

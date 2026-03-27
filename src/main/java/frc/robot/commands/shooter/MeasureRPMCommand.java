@@ -21,7 +21,7 @@ public class MeasureRPMCommand extends Command {
 
     @Override 
     public void initialize() {
-        shooterSubsystem.startFlywheels(10);
+        shooterSubsystem.setFlywheels(10);
         startMeasurement = false;
     }
 
