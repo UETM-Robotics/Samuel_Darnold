@@ -53,10 +53,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
     //The motor for the covers of the shooter
-    private final SparkMax shooterHoodMotor = new SparkMax(ShooterConstants.HOOD_CANID, MotorType.kBrushless);
+    //private final SparkMax shooterHoodMotor = new SparkMax(ShooterConstants.HOOD_CANID, MotorType.kBrushless);
 
     //Motor for the indexer
     private final TalonSRX indexerDriver = new TalonSRX(ShooterConstants.INDEXER_MOTOR_CAN);
+    private final TalonSRX indexerFollower = new TalonSRX(ShooterConstants.INDEXER_TWO_MOTOR_CAN);
 
         // NOTE: the output type is amps, NOT volts (even though it says volts)
     // https://www.chiefdelphi.com/t/sysid-with-ctre-swerve-characterization/452631/8
@@ -108,6 +109,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         krakenShooterMiddle.setControl(new Follower(flywheelDriver.getDeviceID(), MotorAlignmentValue.Aligned));
         krakenShooterRight.setControl(new Follower(flywheelDriver.getDeviceID(), MotorAlignmentValue.Aligned));
+
+        //flywheelDriver.setI
     }
 
     /**
@@ -155,11 +158,12 @@ public class ShooterSubsystem extends SubsystemBase {
      * Starts the Indexer Motor to run at INDEXER_MOTOR_SPEED determined in {@link MotorConstants}
      */
     public void startIndexerMotor() {
+        indexerFollower.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);
         indexerDriver.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);
     }
 
     public Command startIndexerMotorCommand() {
-        return runOnce(() -> {indexerDriver.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);});
+        return runOnce(() -> {indexerFollower.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED); indexerDriver.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);});
     }
  
     /**
@@ -174,10 +178,10 @@ public class ShooterSubsystem extends SubsystemBase {
      * @return 
      * angle
      */
-    public double getHoodAngle() {
-        double angle =  70 + shooterHoodMotor.getAbsoluteEncoder().getPosition() * 0.5;
-        return angle;
-    }
+    // public double getHoodAngle() {
+    //     double angle =  70 + shooterHoodMotor.getAbsoluteEncoder().getPosition() * 0.5;
+    //     return angle;
+    // }
 
     /**
      * An example method querying a boolean state of the subsystem (for example, a digital sensor).
@@ -213,7 +217,15 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public Command stopIndexerMotorCommand() {
-        return runOnce(() -> {indexerDriver.set(ControlMode.PercentOutput, 0);});   
+        return runOnce(() -> {indexerDriver.set(ControlMode.PercentOutput, 0);indexerFollower.set(ControlMode.PercentOutput, 0);});   
+    }
+
+    public Command startFlywheelsCommand() {
+        return runOnce(() -> {flywheelDriver.setVoltage(6.0);});   
+    }
+
+    public Command stopFlywheelsCommand() {
+        return runOnce(() -> {flywheelDriver.setVoltage(0);});   
     }
 
 
@@ -226,3 +238,4 @@ public class ShooterSubsystem extends SubsystemBase {
     //     }).withTimeout(15.0);
     // }
 }
+

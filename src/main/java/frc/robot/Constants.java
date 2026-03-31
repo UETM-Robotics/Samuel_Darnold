@@ -68,10 +68,10 @@ public final class Constants
     public static final int FLYWHEEL_FOLLOWER_MID_CANID = 18;
     public static final int FLYWHEEL_FOLLOWER_RIGHT_CANID = 19; 
 
-    public static final int HOOD_CANID = 16;
+    //public static final int HOOD_CANID = 16;
 
     public static final int INDEXER_MOTOR_CAN = 14;
-
+    public static final int INDEXER_TWO_MOTOR_CAN = 16;
     public static final double INDEXER_MOTOR_SPEED = -0.6;
 
     public static final double HOOD_ANGLE = 45;
@@ -85,7 +85,7 @@ public final class Constants
 
   public static class OperatorConstants
   {
-    public static class LogitechConstants {
+    public static class LogiConstants {
       public static final int LEFT_X_AXIS = 0;
       public static final int LEFT_Y_AXIS = 1;
 
@@ -110,7 +110,7 @@ public final class Constants
       public static final int RIGHT_STICK_BUTTON = 10;
     }
 
-    public static class Pikachu_Constants {
+    public static class PikachuConstants {
       public static final int LEFT_X_AXIS = 0;
       public static final int LEFT_Y_AXIS = 1;
 

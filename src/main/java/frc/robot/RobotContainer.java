@@ -25,8 +25,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.shooter.SetPositionShootCommand;
-import frc.robot.Constants.OperatorConstants.LogitechConstants;
-import frc.robot.Constants.OperatorConstants.Pikachu_Constants;
+import frc.robot.Constants.OperatorConstants.LogiConstants;
+import frc.robot.Constants.OperatorConstants.PikachuConstants;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -57,7 +57,7 @@ public class RobotContainer
   //private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
-  //private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
                                             
   //private final Vision vision = new Vision(drivebase.getPose(), drivebase.field)
@@ -69,9 +69,9 @@ public class RobotContainer
    * Converts driver input into a field-relative ChassisSpeeds that is controlled by angular velocity.
    */
   SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                () -> driverJoystick.getRawAxis(LogitechConstants.LEFT_Y_AXIS) * -1,
-                                                                () -> driverJoystick.getRawAxis(LogitechConstants.LEFT_X_AXIS) * -1)
-                                                            .withControllerRotationAxis(() -> driverJoystick.getRawAxis(LogitechConstants.RIGHT_X_AXIS))
+                                                                () -> driverJoystick.getRawAxis(LogiConstants.LEFT_Y_AXIS) * -1,
+                                                                () -> driverJoystick.getRawAxis(LogiConstants.LEFT_X_AXIS) * -1)
+                                                            .withControllerRotationAxis(() -> driverJoystick.getRawAxis(LogiConstants.RIGHT_X_AXIS))
                                                             .deadband(OperatorConstants.DEADBAND)
                                                             .scaleTranslation(0.8)
                                                             .allianceRelativeControl(true);
@@ -79,8 +79,8 @@ public class RobotContainer
   /**
    * Clone's the angular velocity input stream and converts it to a fieldRelative input stream.
    */
-  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(() -> driverJoystick.getRawAxis(LogitechConstants.RIGHT_Y_AXIS),
-                                                                                            () -> driverJoystick.getRawAxis(LogitechConstants.RIGHT_X_AXIS))
+  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(() -> driverJoystick.getRawAxis(LogiConstants.RIGHT_Y_AXIS),
+                                                                                            () -> driverJoystick.getRawAxis(LogiConstants.RIGHT_X_AXIS))
                                                            .headingWhile(true);
 
   /*
@@ -90,10 +90,10 @@ public class RobotContainer
                                                              .allianceRelativeControl(false);
 
   SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                        () -> -driverJoystick.getRawAxis(LogitechConstants.LEFT_Y_AXIS),
-                                                                        () -> -driverJoystick.getRawAxis(LogitechConstants.LEFT_X_AXIS))
+                                                                        () -> -driverJoystick.getRawAxis(LogiConstants.LEFT_Y_AXIS),
+                                                                        () -> -driverJoystick.getRawAxis(LogiConstants.LEFT_X_AXIS))
                                                                     .withControllerRotationAxis(() -> driverJoystick.getRawAxis(
-                                                                        LogitechConstants.RIGHT_X_AXIS))
+                                                                        LogiConstants.RIGHT_X_AXIS))
                                                                     .deadband(OperatorConstants.DEADBAND)
                                                                     .scaleTranslation(0.8)
                                                                     .allianceRelativeControl(true);
@@ -102,14 +102,14 @@ public class RobotContainer
                                                                                .withControllerHeadingAxis(() ->
                                                                                                               Math.sin(
                                                                                                                   driverJoystick.getRawAxis(
-                                                                                                                      LogitechConstants.RIGHT_X_AXIS) *
+                                                                                                                      LogiConstants.RIGHT_X_AXIS) *
                                                                                                                   Math.PI) *
                                                                                                               (Math.PI *
                                                                                                                2),
                                                                                                           () ->
                                                                                                               Math.cos(
                                                                                                                   driverJoystick.getRawAxis(
-                                                                                                                      LogitechConstants.RIGHT_X_AXIS) *
+                                                                                                                      LogiConstants.RIGHT_X_AXIS) *
                                                                                                                   Math.PI) *
                                                                                                               (Math.PI *
                                                                                                                2))
@@ -193,8 +193,8 @@ public class RobotContainer
                                                                      new Constraints(Units.degreesToRadians(360),
                                                                                      Units.degreesToRadians(180))
                                            ));
-      driverJoystick.button(LogitechConstants.BACK_BUTTON).onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
-      driverJoystick.button(LogitechConstants.START_BUTTON).whileTrue(drivebase.sysIdDriveMotorCommand());
+      driverJoystick.button(LogiConstants.BACK_BUTTON).onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
+      driverJoystick.button(LogiConstants.START_BUTTON).whileTrue(drivebase.sysIdDriveMotorCommand());
       //driverJoystick.button(2).whileTrue(Commands.runEnd(() -> driveDirectAngleKeyboard.driveToPoseEnabled(true),
       //                                               () -> driveDirectAngleKeyboard.driveToPoseEnabled(false)));
       
@@ -208,17 +208,24 @@ public class RobotContainer
     if (DriverStation.isTest())
     {
       drivebase.setDefaultCommand(driveFieldOrientedAnglularVelocity); // Overrides drive command above!
-      driverJoystick.button(6).whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+      driverJoystick.button(0).whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
       //driverJoystick.y().whileTrue(drivebase.driveToDistanceCommand(1.0, 0.2));
-      driverJoystick.button(7).onTrue(Commands.runOnce(drivebase::zeroGyro));
+      driverJoystick.button(0).onTrue(Commands.runOnce(drivebase::zeroGyro));
+      driverJoystick.button(LogiConstants.START_BUTTON).onTrue(Commands.runOnce(drivebase::sysIdDriveMotorCommand));
       //driverJoystick.start().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-      driverJoystick.button(LogitechConstants.B_BUTTON).onTrue(intakeSubsystem.startMotor());
+      driverJoystick.button(LogiConstants.B_BUTTON).onTrue(intakeSubsystem.startMotor());
+
+
+      operatorJoystick.button(LogiConstants.Y_BUTTON).onTrue(intakeSubsystem.startMotor()).onFalse(intakeSubsystem.stopMotor());
+      
       //driverJoystick.back().whileTrue(drivebase.centerModulesCommand());
       //driverJoystick.leftBumper().onTrue(Commands.none());
       //driverJoystick.rightBumper().onTrue(Commands.none());
     } else
     {
-      operatorJoystick.button(Pikachu_Constants.A_BUTTON).onTrue(intakeSubsystem.startMotor())/*.onTrue(shooterSubsystem.startIndexerMotorCommand())*/.onFalse(intakeSubsystem.stopMotor())/*.onFalse(shooterSubsystem.stopIndexerMotorCommand())*/;
+      operatorJoystick.button(LogiConstants.A_BUTTON).onTrue(intakeSubsystem.startMotor())/*.onTrue(shooterSubsystem.startIndexerMotorCommand())*/.onFalse(intakeSubsystem.stopMotor())/*.onFalse(shooterSubsystem.stopIndexerMotorCommand())*/;
+
+      operatorJoystick.button(LogiConstants.B_BUTTON).onTrue(shooterSubsystem.startIndexerMotorCommand()).onTrue(shooterSubsystem.startFlywheelsCommand());//.onFalse(shooterSubsystem.stopIndexerMotorCommand()).onFalse(shooterSubsystem.stopFlywheelsCommand());
     //   driv.erJoystick.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     //   driverJoystick.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
     //   driverJoystick.start().whileTrue(Commands.none());

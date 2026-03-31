@@ -1,6 +1,7 @@
 package frc.robot.commands.shooter;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -17,13 +18,13 @@ public class SetPositionShootCommand extends Command {
         this.swerveSubsystem = swerveSubsystem;
 
         if(swerveSubsystem.isRedAlliance()) {
-            this.targetPose = new Pose2d(); //red target
+            this.targetPose = new Pose2d(13.2, 4.0, new Rotation2d(270)); //red target
         } else {
-            this.targetPose = new Pose2d(); //blue target
+            this.targetPose = new Pose2d(3.2, 4.0, new Rotation2d(90)); //blue target
         }
         
         addRequirements(shooterSubsystem);
-        addRequirements(swerveSubsystem);
+        //addRequirements(swerveSubsystem);
     } 
 
     @Override 
@@ -33,8 +34,8 @@ public class SetPositionShootCommand extends Command {
 
     @Override 
     public void execute() {
-        swerveSubsystem.driveToPose(targetPose);
-        shooterSubsystem.setHoodAngle(ShooterConstants.HOOD_ANGLE);
+        //swerveSubsystem.driveToPose(targetPose);
+        //shooterSubsystem.setHoodAngle(ShooterConstants.HOOD_ANGLE);
         
         if (/*within target rpm and angle*/ true) {
             shooterSubsystem.startIndexerMotor();

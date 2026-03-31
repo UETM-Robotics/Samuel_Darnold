@@ -17,7 +17,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
     /**
      * Starts the Indexer Motor to run at INTAKE_MOTOR_SPEED determined in {@link MotorConstants}
-     */
+     */ 
     public Command startMotor() {
     return runOnce(
         () -> {
