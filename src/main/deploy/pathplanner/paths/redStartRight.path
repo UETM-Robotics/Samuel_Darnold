@@ -16,32 +16,32 @@
     },
     {
       "anchor": {
-        "x": 13.070242510699,
-        "y": 5.7364336661911555
+        "x": 12.4,
+        "y": 7.5
       },
       "prevControl": {
-        "x": 13.922094155844157,
-        "y": 5.752932900432899
+        "x": 13.251851645145157,
+        "y": 7.516499234241744
       },
       "nextControl": {
-        "x": 11.349607550150878,
-        "y": 5.703107253757239
+        "x": 10.679365039451879,
+        "y": 7.466673587566084
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 10.961241084165476,
-        "y": 5.878758915834522
+        "x": 10.0,
+        "y": 7.0
       },
       "prevControl": {
-        "x": 11.189366085764046,
-        "y": 5.714004598967027
+        "x": 10.375221112696147,
+        "y": 7.0820542082738935
       },
       "nextControl": {
-        "x": 9.15921386849618,
-        "y": 7.18020225090863
+        "x": 9.52006015944512,
+        "y": 6.895045661602416
       },
       "isLocked": false,
       "linkedName": null
@@ -63,7 +63,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 2.046908315565047,
-      "rotationDegrees": 180.0
+      "rotationDegrees": -90.0
     }
   ],
   "constraintZones": [],
@@ -85,7 +85,7 @@
   "folder": "Red Alliance Paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -90.0
   },
   "useDefaultConstraints": true
 }
