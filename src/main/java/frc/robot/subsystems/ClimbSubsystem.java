@@ -11,14 +11,16 @@ import frc.robot.Constants.ClimbConstants;
 public class ClimbSubsystem extends SubsystemBase {
     
 
-    private final SparkMax ClimbDriver = new SparkMax(ClimbConstants.CLIMB_MOTOR_CAN, MotorType.kBrushless);
-
+    private final SparkMax ClimbDriver = new SparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_CAN, MotorType.kBrushless);
+    private final SparkMax ClimbFollower = new SparkMax(ClimbConstants.RIGHT_CLIMB_MOTOR_CAN, MotorType.kBrushless);
 
     public ClimbSubsystem () {
         SparkMaxConfig cSparkMax = new SparkMaxConfig();
         cSparkMax.idleMode(IdleMode.kBrake);
 
         ClimbDriver.configure(cSparkMax, null,  com.revrobotics.PersistMode.kPersistParameters);
+        ClimbFollower.configure(cSparkMax, null, com.revrobotics.PersistMode.kPersistParameters);
+        //ClimbFollower.configAccessor.s
     }
 
     /**

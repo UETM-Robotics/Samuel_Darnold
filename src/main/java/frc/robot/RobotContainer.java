@@ -34,6 +34,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.swervedrive.Vision;
 
 import java.io.File;
+import java.util.logging.LogManager;
 
 import swervelib.SwerveDrive;
 import swervelib.SwerveInputStream;
@@ -195,6 +196,7 @@ public class RobotContainer
                                            ));
       driverJoystick.button(LogiConstants.BACK_BUTTON).onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d()))));
       driverJoystick.button(LogiConstants.START_BUTTON).whileTrue(drivebase.sysIdDriveMotorCommand());
+      //driverJoystick.button(LogiConstants.START_BUTTON).onTrue(Commands.runOnce(() -> drivebase.resetOdometry(new Pose2d(3, 3, new Rotation2d())))
       //driverJoystick.button(2).whileTrue(Commands.runEnd(() -> driveDirectAngleKeyboard.driveToPoseEnabled(true),
       //                                               () -> driveDirectAngleKeyboard.driveToPoseEnabled(false)));
       

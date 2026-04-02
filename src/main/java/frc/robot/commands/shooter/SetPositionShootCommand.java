@@ -11,6 +11,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 public class SetPositionShootCommand extends Command {
     private final ShooterSubsystem shooterSubsystem;
     private final SwerveSubsystem swerveSubsystem;
+    private final double h = -1.13665;
 
     //private Pose2d targetPose;
 
@@ -30,7 +31,7 @@ public class SetPositionShootCommand extends Command {
     @Override 
     public void initialize() {
         swerveSubsystem.toggleRotationPoint();
-        shooterSubsystem.setFlywheels(10);
+        shooterSubsystem.setFlywheels(6);
     }
 
     @Override 
@@ -38,10 +39,11 @@ public class SetPositionShootCommand extends Command {
         //swerveSubsystem.driveToPose(targetPose);
         //shooterSubsystem.setHoodAngle(ShooterConstants.HOOD_ANGLE);
         Translation2d distToHub = swerveSubsystem.getDistanceToHub();
-        shooterSubsystem.setFlywheels((int)(distToHub.getX()*2));
 
-        if (/*within target rpm and angle*/ true) {
+
+        if (true) {
             shooterSubsystem.startIndexerMotor();
+            Math.cos(shooterSubsystem.getHoodAngle());
         }
         /*
         Get distance from Odometery

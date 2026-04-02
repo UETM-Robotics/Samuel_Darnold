@@ -42,22 +42,24 @@ import frc.robot.Constants.ShooterConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
     //All three krakens
-    private final TalonFX flywheelDriver = new TalonFX(ShooterConstants.FLYWHEEL_DRIVER_CANID);
-    private final TalonFX krakenShooterMiddle = new TalonFX(ShooterConstants.FLYWHEEL_FOLLOWER_MID_CANID);
-    private final TalonFX krakenShooterRight = new TalonFX(ShooterConstants.FLYWHEEL_FOLLOWER_RIGHT_CANID);
+    private final TalonFX krakenShooterLeft = new TalonFX(ShooterConstants.LEFT_KRAKEN_CANID);
+    //private final TalonFX krakenShooterMiddle = new TalonFX(ShooterConstants.FLYWHEEL_FOLLOWER_MID_CANID);
+    private final TalonFX krakenShooterRight = new TalonFX(ShooterConstants.RIGHT_KRAKEN_CANID);
 
-    private final StatusSignal<AngularVelocity> flywheelVelocity = flywheelDriver.getVelocity();
-    private final StatusSignal<AngularAcceleration> flywheelAcceleration = flywheelDriver.getAcceleration();
+    private final StatusSignal<AngularVelocity> flywheelVelocity = krakenShooterLeft.getVelocity();
+    private final StatusSignal<AngularAcceleration> flywheelAcceleration = krakenShooterLeft.getAcceleration();
 
     SimpleMotorFeedforward ff = new SimpleMotorFeedforward(ShooterConstants.ks, ShooterConstants.kv, ShooterConstants.ka);
 
 
     //The motor for the covers of the shooter
-    //private final SparkMax shooterHoodMotor = new SparkMax(ShooterConstants.HOOD_CANID, MotorType.kBrushless);
+    private final SparkMax hoodMotor = new SparkMax(ShooterConstants.HOOD_MOTOR_CANID, MotorType.kBrushless);
 
     //Motor for the indexer
-    private final TalonSRX indexerDriver = new TalonSRX(ShooterConstants.INDEXER_MOTOR_CAN);
-    private final TalonSRX indexerFollower = new TalonSRX(ShooterConstants.INDEXER_TWO_MOTOR_CAN);
+    private final TalonSRX indexerHopper = new TalonSRX(ShooterConstants.INDEXER_MOTOR_CAN);
+    
+    private final SparkMax indexerShooter = new SparkMax(ShooterConstants.SHOOTER_INDEXER_MOTOR_CAN, MotorType.kBrushless);
+
 
         // NOTE: the output type is amps, NOT volts (even though it says volts)
     // https://www.chiefdelphi.com/t/sysid-with-ctre-swerve-characterization/452631/8
@@ -68,7 +70,7 @@ public class ShooterSubsystem extends SubsystemBase {
             Seconds.of(10),
             state -> SignalLogger.writeString("Flywheel SysId", state.toString())),
         new SysIdRoutine.Mechanism(
-            volts -> flywheelDriver.setControl(new VoltageOut(volts)),
+            volts -> krakenShooterLeft.setControl(new VoltageOut(volts)),
             null,
             this));
 
@@ -79,9 +81,9 @@ public class ShooterSubsystem extends SubsystemBase {
         //krakenShooterMiddle.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
         //krakenShooterRight.setControl(new com.ctre.phoenix6.controls.Follower(leftShooterCANID, MotorAlignmentValue.Aligned));
         configureFlywheels();
-        //shooterHoodMotor = new SparkMax(shooterHoodMotorCANID, MotorType.kBrushless);
+        //hoodMotor = new SparkMax(hoodMotorCANID, MotorType.kBrushless);
 
-        indexerDriver.setNeutralMode(NeutralMode.Coast);
+        indexerHopper.setNeutralMode(NeutralMode.Coast);
     }
 
     private void configureFlywheels() {
@@ -101,16 +103,16 @@ public class ShooterSubsystem extends SubsystemBase {
 
             .withSlot0(Slot0Configs.from(new SlotConfigs().withKP(23.0).withKS(20.0).withKV(2.5)));
 
-        flywheelDriver.getConfigurator().apply(flywheelConfig);
-        krakenShooterMiddle.getConfigurator().apply(flywheelConfig);
+        krakenShooterLeft.getConfigurator().apply(flywheelConfig);
+        //krakenShooterMiddle.getConfigurator().apply(flywheelConfig);
         krakenShooterRight.getConfigurator().apply(flywheelConfig);
         // Max the leader update frequency so follower can respond quickly
-        flywheelDriver.getTorqueCurrent().setUpdateFrequency(1000);
+        krakenShooterLeft.getTorqueCurrent().setUpdateFrequency(1000);
 
-        krakenShooterMiddle.setControl(new Follower(flywheelDriver.getDeviceID(), MotorAlignmentValue.Aligned));
-        krakenShooterRight.setControl(new Follower(flywheelDriver.getDeviceID(), MotorAlignmentValue.Aligned));
+        //krakenShooterMiddle.setControl(new Follower(krakenShooterLeft.getDeviceID(), MotorAlignmentValue.Aligned));
+        krakenShooterRight.setControl(new Follower(krakenShooterLeft.getDeviceID(), MotorAlignmentValue.Aligned));
 
-        //flywheelDriver.setI
+        //krakenShooterLeft.setI
     }
 
     /**
@@ -139,38 +141,38 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void setFlywheels(double vel) {
         double voltage = ff.calculate(vel);
-        flywheelDriver.setVoltage(voltage);
+        krakenShooterLeft.setVoltage(voltage);
     }
 
     public void stopFlywheels() {
-        flywheelDriver.stopMotor();
+        krakenShooterLeft.stopMotor();
     }
 
     public double measureFlywheelRPM() {
-        return flywheelDriver.getRotorVelocity().getValueAsDouble();
+        return krakenShooterLeft.getRotorVelocity().getValueAsDouble();
     }
 
     public double measureFlywheelAccel() {
-        return flywheelDriver.getAcceleration().getValueAsDouble();
+        return krakenShooterLeft.getAcceleration().getValueAsDouble();
     }
 
     /**
      * Starts the Indexer Motor to run at INDEXER_MOTOR_SPEED determined in {@link MotorConstants}
      */
     public void startIndexerMotor() {
-        indexerFollower.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);
-        indexerDriver.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);
+        indexerShooter.set(ShooterConstants.INDEXER_MOTOR_SPEED);
+        indexerHopper.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);
     }
 
     public Command startIndexerMotorCommand() {
-        return runOnce(() -> {indexerFollower.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED); indexerDriver.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);});
+        return runOnce(() -> {indexerShooter.set(ShooterConstants.INDEXER_MOTOR_SPEED); indexerHopper.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);});
     }
  
     /**
      * Stops the Indexer Motor
      */
     public void stopIndexerMotor() {
-        indexerDriver.set(ControlMode.PercentOutput, 0.0);
+        indexerHopper.set(ControlMode.PercentOutput, 0.0);
     }
 
     /**
@@ -179,7 +181,7 @@ public class ShooterSubsystem extends SubsystemBase {
      * angle
      */
     // public double getHoodAngle() {
-    //     double angle =  70 + shooterHoodMotor.getAbsoluteEncoder().getPosition() * 0.5;
+    //     double angle =  70 + hoodMotor.getAbsoluteEncoder().getPosition() * 0.5;
     //     return angle;
     // }
 
@@ -210,6 +212,10 @@ public class ShooterSubsystem extends SubsystemBase {
         throw new UnsupportedOperationException("Unimplemented method 'setHoodAngle'");
     }
 
+    public double getHoodAngle() {
+        return hoodMotor.getEncoder().getPosition();
+    }
+
     @Logged(name = "Flywheel Velocity")
         public AngularVelocity getFlywheelVelocity() {
         BaseStatusSignal.refreshAll(flywheelVelocity, flywheelAcceleration);
@@ -217,15 +223,15 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public Command stopIndexerMotorCommand() {
-        return runOnce(() -> {indexerDriver.set(ControlMode.PercentOutput, 0);indexerFollower.set(ControlMode.PercentOutput, 0);});   
+        return runOnce(() -> {indexerHopper.set(ControlMode.PercentOutput, 0);indexerShooter.set(0.0);});   
     }
 
     public Command startFlywheelsCommand() {
-        return runOnce(() -> {flywheelDriver.setVoltage(6.0);});   
+        return runOnce(() -> {krakenShooterLeft.setVoltage(6.0);});   
     }
 
     public Command stopFlywheelsCommand() {
-        return runOnce(() -> {flywheelDriver.setVoltage(0);});   
+        return runOnce(() -> {krakenShooterLeft.setVoltage(0);});   
     }
 
 

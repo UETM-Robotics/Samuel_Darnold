@@ -50,32 +50,37 @@ public final class Constants
 
   public static final class IntakeConstants
   {
-    public static final int INTAKE_MOTOR_CAN = 15;
+    //driver
+    public static final int INTAKE_LEFT_MOTOR_CAN = 15;
+    //follower
+    public static final int INTAKE_RIGHT_MOTOR_CAN = 16;
     
     public static final double INTAKE_MOTOR_SPEED = 1.0;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ;
   }
 
   public static final class ClimbConstants 
   {
-    public static final int CLIMB_MOTOR_CAN = -1;
+    //driver
+    public static final int LEFT_CLIMB_MOTOR_CAN = 30;
+    //follower
+    public static final int RIGHT_CLIMB_MOTOR_CAN = 31;
 
     public static final double CLIMB_MOTOR_SPEED = 0.2;
   }
 
   public static final class ShooterConstants
   {
-    public static final int FLYWHEEL_DRIVER_CANID = 17;
-    public static final int FLYWHEEL_FOLLOWER_MID_CANID = 18;
-    public static final int FLYWHEEL_FOLLOWER_RIGHT_CANID = 19; 
+    //driver
+    public static final int LEFT_KRAKEN_CANID = 25;
+    //follower
+    public static final int RIGHT_KRAKEN_CANID = 26;
 
-    //public static final int HOOD_CANID = 16;
+    public static final int HOOD_MOTOR_CANID = 27;
 
-    public static final int INDEXER_MOTOR_CAN = 14;
-    public static final int INDEXER_TWO_MOTOR_CAN = 16;
+    public static final int INDEXER_MOTOR_CAN = 20;
+    public static final int SHOOTER_INDEXER_MOTOR_CAN = 21;
+
     public static final double INDEXER_MOTOR_SPEED = -0.6;
-
-    public static final double HOOD_ANGLE = 45;
-    //public static final double VOLTAGE = 6.0;
 
     //get values from SysID
     public static final double ks = 0;

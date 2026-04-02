@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -9,8 +11,9 @@ import frc.robot.Constants.IntakeConstants;
 
 
 public class IntakeSubsystem extends SubsystemBase {
-    private final TalonSRX intakeDriver = new TalonSRX(IntakeConstants.INTAKE_MOTOR_CAN);
-
+    private final SparkMax intakeDriver = new SparkMax(IntakeConstants.INTAKE_LEFT_MOTOR_CAN, MotorType.kBrushless);
+    private final SparkMax intakeFollower = new SparkMax(IntakeConstants.INTAKE_RIGHT_MOTOR_CAN, MotorType.kBrushless);
+    
 
     public IntakeSubsystem () {
 
@@ -21,22 +24,22 @@ public class IntakeSubsystem extends SubsystemBase {
     public Command startMotor() {
     return runOnce(
         () -> {
-            intakeDriver.set(TalonSRXControlMode.PercentOutput, IntakeConstants.INTAKE_MOTOR_SPEED);
+            intakeDriver.set(IntakeConstants.INTAKE_MOTOR_SPEED);
         });
     }
 
     public Command stopMotor() {
     return runOnce(
         () -> {
-            intakeDriver.set(TalonSRXControlMode.PercentOutput, 0.0);
+            intakeDriver.stopMotor();
         });
     }
 
     public void start () {
-        intakeDriver.set(TalonSRXControlMode.PercentOutput, IntakeConstants.INTAKE_MOTOR_SPEED);
+        intakeDriver.set(IntakeConstants.INTAKE_MOTOR_SPEED);
     }
 
     public void stop () {
-        intakeDriver.set(TalonSRXControlMode.PercentOutput, 0.0);
+        intakeDriver.stopMotor();
     }
 }
