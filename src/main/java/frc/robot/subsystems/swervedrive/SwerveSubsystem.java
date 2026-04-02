@@ -71,6 +71,13 @@ public class SwerveSubsystem extends SubsystemBase
    */
   private       Vision      vision;
 
+  private final Pose2d targetPose2d = isRedAlliance() ? 
+            new Pose2d(13.2, 4.0, new Rotation2d(0)) //red target
+                :
+            new Pose2d(3.2, 4.0, new Rotation2d(180)); //blue target
+  
+  private boolean driveSetPoint = false;
+
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -79,6 +86,7 @@ public class SwerveSubsystem extends SubsystemBase
    public SwerveSubsystem(File directory)
   { 
     boolean blueAlliance = DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Blue;
+    
     Pose2d startingPose = blueAlliance ? new Pose2d(new Translation2d(Meter.of(1),
                                                                       Meter.of(4)),
                                                     Rotation2d.fromDegrees(180))
@@ -503,6 +511,21 @@ public class SwerveSubsystem extends SubsystemBase
     });
   }
 
+  public Command driveTypeDeciderCommand(Supplier<ChassisSpeeds> velocity)
+  {
+    return run(()-> {
+      if (driveSetPoint) {
+        driveFieldOriented(velocity.get());
+      } else {
+        driveFieldOrientedSetRotationPoint(velocity.get(), targetPose2d.getTranslation());
+      }
+    });
+  }
+
+  public void toggleRotationPoint() {
+    driveSetPoint = driveSetPoint ? false : true;
+  }
+
   /**
    * Drive according to the chassis robot oriented velocity.
    *
@@ -543,6 +566,11 @@ public class SwerveSubsystem extends SubsystemBase
   public Pose2d getPose()
   {
     return swerveDrive.getPose();
+  }
+
+  public Translation2d getDistanceToHub()
+  {
+    return targetPose2d.getTranslation().minus(swerveDrive.getPose().getTranslation());
   }
 
   /**

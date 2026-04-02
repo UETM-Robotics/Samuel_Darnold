@@ -137,7 +137,7 @@ public class ShooterSubsystem extends SubsystemBase {
             .finallyDo(this::stopFlywheels);
     }
 
-    public void startFlywheels(double vel) {
+    public void setFlywheels(double vel) {
         double voltage = ff.calculate(vel);
         flywheelDriver.setVoltage(voltage);
     }
