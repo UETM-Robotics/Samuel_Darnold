@@ -57,7 +57,8 @@ public final class Constants
 
   public static final class ClimbConstants 
   {
-    public static final int CLIMB_MOTOR_CAN = -1;
+    public static final int LEFT_CLIMB_MOTOR_CAN = 30;
+    public static final int RIGHT_CLIMB_MOTOR_CAN = 31;
 
     public static final double CLIMB_MOTOR_SPEED = 0.2;
   }

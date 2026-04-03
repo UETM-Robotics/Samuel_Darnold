@@ -514,7 +514,7 @@ public class SwerveSubsystem extends SubsystemBase
   public Command driveTypeDeciderCommand(Supplier<ChassisSpeeds> velocity)
   {
     return run(()-> {
-      if (driveSetPoint) {
+      if (true) {
         driveFieldOriented(velocity.get());
       } else {
         driveFieldOrientedSetRotationPoint(velocity.get(), targetPose2d.getTranslation());
