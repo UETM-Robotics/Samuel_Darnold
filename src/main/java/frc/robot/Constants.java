@@ -66,6 +66,10 @@ public final class Constants
     public static final int RIGHT_CLIMB_MOTOR_CAN = 31;
 
     public static final double CLIMB_MOTOR_SPEED = 0.2;
+
+    public static final double kP = 0.5;
+    public static final double kI = 0;
+    public static final double kD = 0;
   }
 
   public static final class ShooterConstants

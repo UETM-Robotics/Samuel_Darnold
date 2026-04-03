@@ -55,7 +55,7 @@ public class RobotContainer
   private final SwerveSubsystem       drivebase  = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                                 "swerve/neo"));
 
-  //private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
@@ -225,9 +225,13 @@ public class RobotContainer
       //driverJoystick.rightBumper().onTrue(Commands.none());
     } else
     {
+      SetPositionShootCommand posShootCmd = new SetPositionShootCommand(shooterSubsystem, drivebase);
       operatorJoystick.button(LogiConstants.A_BUTTON).onTrue(intakeSubsystem.startMotor())/*.onTrue(shooterSubsystem.startIndexerMotorCommand())*/.onFalse(intakeSubsystem.stopMotor())/*.onFalse(shooterSubsystem.stopIndexerMotorCommand())*/;
 
-      operatorJoystick.button(LogiConstants.B_BUTTON).onTrue(shooterSubsystem.startIndexerMotorCommand()).onTrue(shooterSubsystem.startFlywheelsCommand());//.onFalse(shooterSubsystem.stopIndexerMotorCommand()).onFalse(shooterSubsystem.stopFlywheelsCommand());
+      operatorJoystick.button(LogiConstants.B_BUTTON).onTrue(shooterSubsystem.startIndexerMotorsCommand()).onTrue(shooterSubsystem.startFlywheelsCommand());//.onFalse(shooterSubsystem.stopIndexerMotorCommand()).onFalse(shooterSubsystem.stopFlywheelsCommand());
+
+      operatorJoystick.button(PikachuConstants.LEFT_BUMPER_BUTTON).onTrue(climbSubsystem.startMotor()).onFalse(climbSubsystem.stopMotor());
+      operatorJoystick.button(PikachuConstants.RIGHT_TRIGGER_BUTTON).onTrue(climbSubsystem.startMotorReverse()).onFalse(climbSubsystem.stopMotor());
     //   driv.erJoystick.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     //   driverJoystick.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
     //   driverJoystick.start().whileTrue(Commands.none());

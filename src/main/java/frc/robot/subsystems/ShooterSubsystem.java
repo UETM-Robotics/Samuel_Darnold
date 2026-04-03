@@ -159,21 +159,26 @@ public class ShooterSubsystem extends SubsystemBase {
     /**
      * Starts the Indexer Motor to run at INDEXER_MOTOR_SPEED determined in {@link MotorConstants}
      */
-    public void startIndexerMotor() {
+    public void startIndexerMotors() {
         indexerShooter.set(ShooterConstants.INDEXER_MOTOR_SPEED);
         indexerHopper.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);
     }
 
-    public Command startIndexerMotorCommand() {
-        return runOnce(() -> {indexerShooter.set(ShooterConstants.INDEXER_MOTOR_SPEED); indexerHopper.set(ControlMode.PercentOutput, ShooterConstants.INDEXER_MOTOR_SPEED);});
-    }
- 
     /**
      * Stops the Indexer Motor
      */
-    public void stopIndexerMotor() {
+    public void stopIndexerMotors() {
+        indexerShooter.stopMotor();
         indexerHopper.set(ControlMode.PercentOutput, 0.0);
     }
+
+    public Command startIndexerMotorsCommand() {
+        return runOnce(() -> {startIndexerMotors();});
+    }
+
+    public Command stopIndexerMotorsCommand() {
+        return runOnce(() -> {stopIndexerMotors();});   
+    }   
 
     /**
      * NOT DONEEEEEEEEEEEEEEEEEEEEEEEEEEEE
@@ -217,13 +222,9 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     @Logged(name = "Flywheel Velocity")
-        public AngularVelocity getFlywheelVelocity() {
+    public AngularVelocity getFlywheelVelocity() {
         BaseStatusSignal.refreshAll(flywheelVelocity, flywheelAcceleration);
         return BaseStatusSignal.getLatencyCompensatedValue(flywheelVelocity, flywheelAcceleration);
-    }
-
-    public Command stopIndexerMotorCommand() {
-        return runOnce(() -> {indexerHopper.set(ControlMode.PercentOutput, 0);indexerShooter.set(0.0);});   
     }
 
     public Command startFlywheelsCommand() {
