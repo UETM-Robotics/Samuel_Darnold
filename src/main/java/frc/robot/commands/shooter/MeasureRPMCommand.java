@@ -50,7 +50,7 @@ public class MeasureRPMCommand extends Command {
         /*
         Turn Off Shooter Motors
         */
-       shooterSubsystem.stopIndexerMotor();
+       shooterSubsystem.stopIndexerMotors();
     }
 
     @Override 

@@ -4,23 +4,41 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
 
 public class ClimbSubsystem extends SubsystemBase {
-    
+    private final PIDController pidController;
 
-    private final SparkMax ClimbDriver = new SparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_CAN, MotorType.kBrushless);
+    private final SparkMax climbDriver = new SparkMax(ClimbConstants.LEFT_CLIMB_MOTOR_CAN, MotorType.kBrushless);
     private final SparkMax ClimbFollower = new SparkMax(ClimbConstants.RIGHT_CLIMB_MOTOR_CAN, MotorType.kBrushless);
 
     public ClimbSubsystem () {
+        this.pidController = new PIDController(ClimbConstants.kP, ClimbConstants.kI, ClimbConstants.kD);
         SparkMaxConfig cSparkMax = new SparkMaxConfig();
         cSparkMax.idleMode(IdleMode.kBrake);
 
-        ClimbDriver.configure(cSparkMax, null,  com.revrobotics.PersistMode.kPersistParameters);
+        climbDriver.configure(cSparkMax, null,  com.revrobotics.PersistMode.kPersistParameters);
         cSparkMax.follow(ClimbConstants.LEFT_CLIMB_MOTOR_CAN);
-        ClimbFollower.configure(cSparkMax, null,  com.revrobotics.PersistMode.kPersistParameters);
+        ClimbFollower.configure(cSparkMax, null, com.revrobotics.PersistMode.kPersistParameters);
+    }
+
+    public void setPIDPoint (double point) {
+        pidController.setSetpoint(point);
+    }
+
+    public double getEncoder () {
+        return climbDriver.getEncoder().getPosition();
+    }
+
+    public void updateClimbMotors () {
+        setClimbSpeed(pidController.calculate(getEncoder()));
+    }
+
+    private void setClimbSpeed(double speed) {
+        climbDriver.set(speed);
     }
 
     /**
@@ -29,30 +47,30 @@ public class ClimbSubsystem extends SubsystemBase {
     public Command startMotor() {
     return runOnce(
         () -> {
-            ClimbDriver.set(ClimbConstants.CLIMB_MOTOR_SPEED);
+            climbDriver.set(ClimbConstants.CLIMB_MOTOR_SPEED);
         });
     }
 
     public Command stopMotor() {
     return runOnce(
         () -> {
-            ClimbDriver.set(0);
+            climbDriver.set(0);
         });
     }
 
     // public void startMotor () {
-    //     ClimbDriver.stopMotor();
+    //     climbDriver.stopMotor();
     // }
 
     public void stop () {
-        ClimbDriver.stopMotor();
+        climbDriver.stopMotor();
     }
 
 
     public Command startMotorReverse() {
     return runOnce(
         () -> {
-            ClimbDriver.set(-ClimbConstants.CLIMB_MOTOR_SPEED);
+            climbDriver.set(-ClimbConstants.CLIMB_MOTOR_SPEED);
         });
     }
 
